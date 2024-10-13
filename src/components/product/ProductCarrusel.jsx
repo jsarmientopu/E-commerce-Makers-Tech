@@ -2,7 +2,7 @@ import React from "react";
 import { Button, Card, CardContent, Typography } from "@mui/material";
 import ProductCard from "./card";
 
-export default function ProductCarousel() {
+const ProductCarousel = () => {
   const products = [
     {
       title: "T-Shirt",
@@ -72,4 +72,6 @@ export default function ProductCarousel() {
       </div>
     </div>
   );
-}
+};
+
+export default ProductCarousel;

@@ -1,12 +1,14 @@
 // Navbar.js
-import React from "react";
+import React, { useState, useContext } from "react";
 import Button from "@mui/material/Button";
 import { Outlet, Link } from "react-router-dom";
 import { useAuth } from "../../Auth/AuthContext";
 import { useNavigate } from "react-router-dom";
 import CartDrawer from "../Cart/CartDrawer";
+import { CartContext } from "../../App";
 
 const Navbar = () => {
+  const { items, setItems } = useContext(CartContext);
   const navigate = useNavigate();
   //   const { logout} = useAuth();
 
@@ -35,13 +37,13 @@ const Navbar = () => {
             </a>
           </li>
           <li>
-            <a href="/services" className="text-white hover:text-gray-400">
-              Services
+            <a href="/products" className="text-white hover:text-gray-400">
+              Productos
             </a>
           </li>
           <li>
-            <a href="/contact" className="text-white hover:text-gray-400">
-              Contact
+            <a href="/statistics" className="text-white hover:text-gray-400">
+              services
             </a>
           </li>
         </ul>

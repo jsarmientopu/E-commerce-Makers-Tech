@@ -1,21 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Drawer, IconButton, Button, Typography } from "@mui/material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import CartItem from "./CartItem.jsx";
 import CartSummary from "./CartSummary";
+import { CartContext } from "../../App.jsx";
 
-export default function CartDrawer() {
+const CartDrawer = () => {
+  const { items, setItems } = useContext(CartContext);
   const [open, setOpen] = useState(false);
-
   const toggleDrawer = () => {
     setOpen(!open);
   };
-
-  const cartItems = [
-    { id: 1, name: "T-Shirt", price: 19.99, units: 2 },
-    { id: 2, name: "Sneakers", price: 79.99, units: 1 },
-    { id: 3, name: "Jeans", price: 39.99, units: 1 },
-  ];
 
   return (
     <>
@@ -23,7 +18,7 @@ export default function CartDrawer() {
       <IconButton
         onClick={toggleDrawer}
         style={{ color: "white" }}
-        classname="flex flex-row p-4"
+        className="flex flex-row p-4"
       >
         <ShoppingCartIcon fontSize="small" />
       </IconButton>
@@ -46,9 +41,10 @@ export default function CartDrawer() {
 
           {/* List of Cart Items */}
           <div className="flex flex-col space-y-4">
-            {cartItems.map((item) => (
+            {items.map((item) => (
               <CartItem
                 key={item.id}
+                id={item.id}
                 name={item.name}
                 price={item.price}
                 units={item.units}
@@ -57,9 +53,11 @@ export default function CartDrawer() {
           </div>
 
           {/* Cart Summary */}
-          <CartSummary cartItems={cartItems} />
+          <CartSummary cartItems={items} />
         </div>
       </Drawer>
     </>
   );
-}
+};
+
+export default CartDrawer;

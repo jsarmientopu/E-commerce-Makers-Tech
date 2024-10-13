@@ -8,7 +8,8 @@ import ProductCarousel from "../product/ProductCarrusel";
 const Home = ({ children }) => {
   return (
     <div className="h-screen">
-      <Navbar />;{children}
+      <Navbar />
+      {children}
     </div>
   );
 };

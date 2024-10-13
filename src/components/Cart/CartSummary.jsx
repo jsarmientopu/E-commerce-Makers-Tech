@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Typography } from "@mui/material";
 
-export default function CartSummary({ cartItems }) {
+const CartSummary = ({ cartItems }) => {
   // Calculate the total price
-  const total = cartItems.reduce(
-    (sum, item) => sum + item.price * item.units,
-    0
-  );
+  const [total, setTotal] = useState(0);
+
+  useEffect(() => {
+    setTotal(cartItems.reduce((sum, item) => sum + item.price * item.units, 0));
+  }, [cartItems]);
 
   return (
     <div className="mt-6 flex flex-col gap-2">
@@ -30,4 +31,5 @@ export default function CartSummary({ cartItems }) {
       </Button>
     </div>
   );
-}
+};
+export default CartSummary;

@@ -6,7 +6,7 @@ const categories = [
   { name: "Footwear", image: "/images/footwear.jpg" },
 ];
 
-export default function Categories() {
+const Categories = () => {
   return (
     <div className="py-10 bg-white">
       <h2 className="text-3xl font-bold text-center text-purple-500 mb-10">
@@ -31,4 +31,5 @@ export default function Categories() {
       </div>
     </div>
   );
-}
+};
+export default Categories;

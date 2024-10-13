@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Button, Typography } from "@mui/material";
+import { CartContext } from "../../App";
 
-export default function HeroSection() {
+const HeroSection = () => {
+  const { items, setItems } = useContext(CartContext);
+  console.log(items);
   return (
     <div className="text-white flex flex-col justify-center items-center text-center my-24">
       <Typography variant="h2" className="mb-4 font-bold text-purple-500">
@@ -21,8 +24,9 @@ export default function HeroSection() {
         }}
         href="/products"
       >
-        Shop Now
+        Shop now
       </Button>
     </div>
   );
-}
+};
+export default HeroSection;

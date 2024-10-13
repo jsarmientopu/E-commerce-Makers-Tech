@@ -1,5 +1,5 @@
 // ProductCard.jsx
-import React from "react";
+import React, { useContext } from "react";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,6 +7,8 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import { styled } from "@mui/system";
+import { CartContext } from "../../App";
+import Swal from "sweetalert2";
 
 // Placeholder image if the product doesn't have an image
 const placeholderImage = "/images/placeholder-image.jpg"; // You can store a default placeholder in the public folder
@@ -33,29 +35,46 @@ const CustomButton = styled(Button)(({ theme }) => ({
 }));
 
 const ProductCard = ({ product }) => {
+  const { items, setItems } = useContext(CartContext);
+  const addCart = () => {
+    var updatedArray = [];
+    var i;
+    for (i = 0; i < items.length; i++) {
+      updatedArray.push(items[i]);
+    }
+    product.units = 1;
+    updatedArray.push(product);
+    setItems(updatedArray);
+    Swal.fire({
+      title: "Added!",
+      text: "Product added to the cart successfully",
+      icon: "success",
+    });
+  };
+
   return (
     <CustomCard>
       <CardMedia
         component="img"
         height="200"
         image={product.imageUrl || placeholderImage} // Use placeholder if no imageUrl is provided
-        alt={product.Name}
+        alt={product.name}
       />
       <CardContent>
         <Typography variant="h6" component="div" fontWeight="bold">
-          {product.Name}
+          {product.name}
         </Typography>
         <Typography variant="body2" color="gray">
-          {product.Brand}
+          {product.brand}
         </Typography>
         <Typography variant="h6" fontWeight="bold">
-          ${product.Price.toFixed(2)}
+          ${product.price.toFixed(2)}
         </Typography>
         <Typography variant="body2" color="white">
-          {product.Description}
+          {product.description}
         </Typography>
         <Box display="flex" justifyContent="center">
-          <CustomButton variant="contained" fullWidth>
+          <CustomButton variant="contained" fullWidth onClick={addCart}>
             Add to Cart
           </CustomButton>
         </Box>
