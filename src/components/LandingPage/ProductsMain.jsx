@@ -1,9 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import ProductCard from "../product/card";
 import { CartContext } from "../../App";
+import { getAllProducts } from "../../utils/products";
+
 const featuredProducts = [
   {
-    id: 1,
+    productId: 1,
     name: "Smartphone",
     brand: "TechBrand",
     description: "A high-end smartphone with a sleek design.",
@@ -12,7 +14,7 @@ const featuredProducts = [
     category: "Electronics",
   },
   {
-    id: 2,
+    productId: 2,
     name: "Headphones",
     brand: "SoundMax",
     description: "Noise-canceling over-ear headphones.",
@@ -21,7 +23,7 @@ const featuredProducts = [
     category: "Audio",
   },
   {
-    id: 3,
+    productId: 3,
     name: "Running Shoes",
     brand: "RunFast",
     description: "Lightweight running shoes for daily wear.",
@@ -30,7 +32,7 @@ const featuredProducts = [
     category: "Footwear",
   },
   {
-    id: 1,
+    productId: 1,
     name: "Smartphone",
     brand: "TechBrand",
     description: "A high-end smartphone with a sleek design.",
@@ -39,7 +41,7 @@ const featuredProducts = [
     category: "Electronics",
   },
   {
-    id: 2,
+    productId: 2,
     name: "Headphones",
     brand: "SoundMax",
     description: "Noise-canceling over-ear headphones.",
@@ -48,7 +50,7 @@ const featuredProducts = [
     category: "Audio",
   },
   {
-    id: 3,
+    productId: 3,
     name: "Running Shoes",
     brand: "RunFast",
     description: "Lightweight running shoes for daily wear.",
@@ -60,14 +62,33 @@ const featuredProducts = [
 
 const FeaturedProducts = () => {
   const { items, setItems } = useContext(CartContext);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  // Fetch products data from backend
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    getAllProducts(setProducts, setLoading, token);
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="py-10 px-10 bg-gray-100 min-h-full">
+        <h2 className="text-3xl font-bold text-center text-purple-500 mb-10">
+          Loading featured products...
+        </h2>
+      </div>
+    );
+  }
   return (
     <div className="py-10 px-10 bg-gray-100 min-h-full ">
       <h2 className="text-3xl font-bold text-center text-purple-500 mb-10">
         Featured Products
       </h2>
       <div className="flex flex-row flex-wrap gap-10 justify-center overflow-auto py-4">
-        {featuredProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
+        {products.map((product) => (
+          <ProductCard key={product.productId} product={product} />
         ))}
       </div>
     </div>

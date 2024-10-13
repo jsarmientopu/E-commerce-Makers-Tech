@@ -1,6 +1,6 @@
 const products = [
   {
-    id: 1,
+    productId: 1,
     name: "Wireless Bluetooth Headphones",
     brand: "SoundTech",
     description:
@@ -11,7 +11,7 @@ const products = [
     image: "https://example.com/headphones.jpg",
   },
   {
-    id: 2,
+    productId: 2,
     name: "Smart LED TV 50''",
     brand: "VisionPro",
     description:
@@ -22,7 +22,7 @@ const products = [
     image: "https://example.com/tv.jpg",
   },
   {
-    id: 3,
+    productId: 3,
     name: "Organic Cotton T-shirt",
     brand: "EcoWear",
     description:
@@ -33,7 +33,7 @@ const products = [
     image: "https://example.com/tshirt.jpg",
   },
   {
-    id: 4,
+    productId: 4,
     name: "Running Shoes",
     brand: "RunMax",
     description:
@@ -44,7 +44,7 @@ const products = [
     image: "https://example.com/runningshoes.jpg",
   },
   {
-    id: 5,
+    productId: 5,
     name: "Portable Charger 10,000mAh",
     brand: "PowerGo",
     description:
@@ -55,7 +55,7 @@ const products = [
     image: "https://example.com/portablecharger.jpg",
   },
   {
-    id: 6,
+    productId: 6,
     name: "Gaming Laptop",
     brand: "GameTech",
     description:
@@ -66,7 +66,7 @@ const products = [
     image: "https://example.com/gaminglaptop.jpg",
   },
   {
-    id: 7,
+    productId: 7,
     name: "Stainless Steel Water Bottle",
     brand: "HydroPlus",
     description:
@@ -77,7 +77,7 @@ const products = [
     image: "https://example.com/waterbottle.jpg",
   },
   {
-    id: 8,
+    productId: 8,
     name: "Electric Kettle",
     brand: "HomeEssentials",
     description:
@@ -88,18 +88,18 @@ const products = [
     image: "https://example.com/electrickettle.jpg",
   },
   {
-    id: 9,
+    productId: 9,
     name: "Yoga Mat",
     brand: "ZenFit",
     description:
-      "Comfortable, non-slip yoga mat with extra cushioning, ideal for yoga, pilates, and other fitness activities.",
+      "Comfortable, non-slip yoga mat with extra cushioning, productIdeal for yoga, pilates, and other fitness activities.",
     price: 24.99,
     stock: 60,
     category: "Fitness",
     image: "https://example.com/yogamat.jpg",
   },
   {
-    id: 10,
+    productId: 10,
     name: "Noise-Cancelling Earbuds",
     brand: "QuietTech",
     description:

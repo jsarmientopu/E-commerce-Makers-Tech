@@ -21,9 +21,9 @@ export const CartContext = React.createContext();
 
 function App() {
   const [items, setItems] = useState([
-    { id: 1, name: "T-Shirt", price: 19.99, units: 2 },
-    { id: 2, name: "Sneakers", price: 79.99, units: 1 },
-    { id: 3, name: "Jeans", price: 39.99, units: 1 },
+    { productId: 1, name: "T-Shirt", price: 19.99, units: 2 },
+    { productId: 2, name: "Sneakers", price: 79.99, units: 1 },
+    { productId: 3, name: "Jeans", price: 39.99, units: 1 },
   ]);
   return (
     // <AuthProvider>

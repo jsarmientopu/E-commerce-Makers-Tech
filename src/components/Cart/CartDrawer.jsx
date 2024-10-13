@@ -43,8 +43,8 @@ const CartDrawer = () => {
           <div className="flex flex-col space-y-4">
             {items.map((item) => (
               <CartItem
-                key={item.id}
-                id={item.id}
+                key={item.productId}
+                productId={item.productId}
                 name={item.name}
                 price={item.price}
                 units={item.units}

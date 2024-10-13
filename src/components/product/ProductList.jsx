@@ -1,46 +1,70 @@
 // ProductListWithPagination.jsx
 import React, { useState, useEffect } from "react";
 import ProductCardList from "./CardList";
-import products from "../../Products/products";
+// import products from "../../Products/products";
+import { getAllRecomendedProducts } from "../../utils/products";
+import { Typography } from "@mui/material";
 
 const ProductListWithPagination = () => {
-  const [productss, setProducts] = useState([]);
+  const [products, setProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const [productsPerPage] = useState(12); // Set how many products per page
 
   useEffect(() => {
-    // Fetch or set product data
-    // const fetchProducts = async () => {
-    //   const response = await fetch("/api/products");
-    //   const data = await response.json();
-    //   setProducts(data);
-    // };
-    // fetchProducts();
-    setProducts(products);
+    getAllRecomendedProducts(setProducts, setLoading);
   }, []);
 
   // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = productss.slice(
+  const currentProducts = products.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  if (loading) {
+    return (
+      <div className="h-screen w-screen flex flex-col justify-center bg-white">
+        <Typography
+          variant="h4"
+          className="text-center text-purple-600"
+          sx={{ fontWeight: "bold" }}
+        >
+          Loading products...
+        </Typography>
+      </div>
+    );
+  }
+
+  if (!loading && products.length <= 0) {
+    return (
+      <div className="h-screen w-screen flex flex-col justify-center bg-white">
+        <Typography
+          variant="h3"
+          className="text-center text-purple-600"
+          sx={{ fontWeight: "bold" }}
+        >
+          Nothing to see
+        </Typography>
+      </div>
+    );
+  }
+
   return (
     <div className="container max-h-screen overflow-auto py-8 no-scrollbar">
       <div className="flex flex-row flex-wrap gap-10 justify-center pb-4">
-        {currentProducts.map((productss) => (
-          <ProductCardList key={productss.id} product={productss} />
+        {currentProducts.map((products) => (
+          <ProductCardList key={products.productId} product={products} />
         ))}
       </div>
 
       {/* Pagination Buttons */}
       <div className="h-28">
         <div className="flex justify-center">
-          {[...Array(Math.ceil(productss.length / productsPerPage)).keys()].map(
+          {[...Array(Math.ceil(products.length / productsPerPage)).keys()].map(
             (num) => (
               <button
                 key={num}

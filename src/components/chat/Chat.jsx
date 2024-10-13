@@ -12,12 +12,26 @@ const FloatingChat = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     { message: "Hello! How can we help you?", sender: "bot" },
-    { message: "I have a question about your services.", sender: "person" },
+    // { message: "I have a question about your services.", sender: "person" },
   ]);
   const [inputMessage, setInputMessage] = useState("");
+  const [loading, setLoading] = useState(false);
 
   // Create a ref for the chat body
   const chatBodyRef = useRef(null);
+
+  const formatMessageForHTML = (message) => {
+    // Replace double newlines with <br /><br />
+    let formattedMessage = message.replace(/\n\n/g, "<br /><br />");
+
+    // Replace **bold text** with <strong> tags
+    formattedMessage = formattedMessage.replace(
+      /\*\*(.*?)\*\*/g,
+      "<strong>$1</strong>"
+    );
+
+    return formattedMessage;
+  };
 
   // Toggle the chat box visibility
   const toggleChat = () => {
@@ -25,21 +39,62 @@ const FloatingChat = () => {
   };
 
   // Handle sending a message
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputMessage.trim()) {
       // Add user's message to the chat array
       setMessages([...messages, { message: inputMessage, sender: "person" }]);
 
       // Clear the input field
       setInputMessage("");
-
+      setLoading(true);
       // Simulate bot response
-      setTimeout(() => {
+      // setTimeout(() => {
+      //   setMessages((prevMessages) => [
+      //     ...prevMessages,
+      //     { message: "Thanks for your message!", sender: "bot" },
+      //   ]);
+      // }, 1000);
+
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await fetch("http://localhost:3001/chat/product", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ query: inputMessage }),
+        });
+
+        const data = await response.json();
+        setLoading(false);
+
+        if (response.ok) {
+          // Add bot's response to the chat array
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { message: formatMessageForHTML(data.message), sender: "bot" },
+          ]);
+        } else {
+          if (
+            data.message == "Internal server error" ||
+            data.message == "Unauthorized"
+          ) {
+            window.localStorage.removeItem("token");
+          }
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { message: "Error: " + data.message, sender: "bot" },
+          ]);
+        }
+      } catch (err) {
+        setLoading(false);
         setMessages((prevMessages) => [
           ...prevMessages,
-          { message: "Thanks for your message!", sender: "bot" },
+          { message: "An error occurred. Please try again.", sender: "bot" },
         ]);
-      }, 1000);
+      }
     }
   };
 
@@ -100,10 +155,16 @@ const FloatingChat = () => {
                         : "bg-gray-200 self-start"
                     }`}
                   >
-                    <p>{msg.message}</p>
+                    {" "}
+                    <p dangerouslySetInnerHTML={{ __html: msg.message }} />
                   </div>
                 ))}
               </div>
+              {loading && (
+                <div className="self-start text-bg-purple-500 p-2 rounded-lg py-3">
+                  <p>Loading...</p>
+                </div>
+              )}
             </div>
 
             {/* Chat Input */}

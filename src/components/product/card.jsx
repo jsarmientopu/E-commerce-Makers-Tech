@@ -57,7 +57,7 @@ const ProductCard = ({ product }) => {
       <CardMedia
         component="img"
         height="200"
-        image={product.imageUrl || placeholderImage} // Use placeholder if no imageUrl is provided
+        image={product.image || placeholderImage} // Use placeholder if no imageUrl is provided
         alt={product.name}
       />
       <CardContent>
@@ -68,7 +68,7 @@ const ProductCard = ({ product }) => {
           {product.brand}
         </Typography>
         <Typography variant="h6" fontWeight="bold">
-          ${product.price.toFixed(2)}
+          ${product.price}
         </Typography>
         <Typography variant="body2" color="white">
           {product.description}

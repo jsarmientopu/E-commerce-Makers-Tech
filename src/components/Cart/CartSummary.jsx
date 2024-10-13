@@ -16,7 +16,7 @@ const CartSummary = ({ cartItems }) => {
           Total:
         </Typography>
         <Typography variant="h6" className="text-purple-500">
-          ${total.toFixed(2)}
+          ${total}
         </Typography>
       </div>
 

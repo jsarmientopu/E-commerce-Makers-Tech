@@ -10,6 +10,7 @@ import { Outlet, Link } from "react-router-dom";
 import Template from "./Template";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import Swal from "sweetalert2";
 
 const RegisterComponent = () => {
   const [username, setUsername] = useState("");
@@ -31,8 +32,56 @@ const RegisterComponent = () => {
     },
   });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    if (
+      !username ||
+      !email ||
+      !password ||
+      password !== confirmPass ||
+      rol < 0
+    ) {
+      Swal.fire({
+        title: "Registration failed",
+        text: "Please fill out all fields correctly.",
+        icon: "error",
+      });
+      return;
+    }
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:3001/auth/register", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username,
+          email,
+          password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // If registration is successful, redirect to the login page
+        navigate("/login");
+      } else {
+        // Show error message from the server (e.g., username or email exists)
+        Swal.fire({
+          title: "Registration failed",
+          text: data.message,
+          icon: "error",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Registration failed",
+        text: "An error occurred. Please try again.",
+        icon: "error",
+      });
+    }
 
     // Basic form validation (could be extended)
     if (username && email && password && password == confirmPass && rol > -1) {

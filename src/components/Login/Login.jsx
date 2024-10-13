@@ -8,6 +8,7 @@ import Template from "./Template";
 import { useNavigate } from "react-router-dom";
 import { redirect } from "react-router-dom";
 import { Outlet, Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 // Custom theme for consistent purple color
 const theme = createTheme({
@@ -24,7 +25,48 @@ const LoginPage = () => {
   const [password, setPassword] = useState(""); // State for password
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    const token = localStorage.getItem("token");
+    try {
+      const response = await fetch("http://localhost:3001/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          username: username,
+          password: password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // Store the token in localStorage or other secure place
+        localStorage.setItem("token", data.token);
+
+        // Navigate to the home page upon successful login
+        navigate("/home");
+        window.location.reload();
+      } else {
+        // Show error message from the server
+
+        Swal.fire({
+          title: "Login failed",
+          text: data.message,
+          icon: "error",
+        });
+      }
+    } catch (err) {
+      Swal.fire({
+        title: "Login failed",
+        text: "An error occurred. Please try again.",
+        icon: "error",
+      });
+    }
+
     e.preventDefault();
     console.log("Username:", username);
     console.log("Password:", password);

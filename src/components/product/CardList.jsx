@@ -36,7 +36,7 @@ const ProductCardList = ({ product }) => {
       </div>
       <div className="text-center">
         <p className="text-lg font-semibold text-purple-600">
-          ${product.price.toFixed(2)}
+          ${product.price}
         </p>
         <p className="text-sm text-gray-500">In Stock: {product.stock}</p>
         <button
